@@ -1,26 +1,20 @@
 import './App.css';
-import axios from "axios";
-import {useEffect, useState} from "react"; //grap and display all the post from api
+import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import Home from "./pages/Home"
+import CreatePost from "./pages/CreatePost"
 
-function App() {
-
-  const [list_OfPosts, set_listOfPosts]= useState([]);
-
-  useEffect( ()=>{
-    axios.get("http://localhost:3001/posts").then((response) =>{
-      set_listOfPosts(response.data);
-    })
-  },[]);
-  return (
-    <div className="App">
-      {list_OfPosts.map((value,key)=>{  //relate with java maps
-        return <div className="post"> 
-        <div className="title"> {value.title} </div> 
-        <div className="body"> {value.postText} </div>
-        <div className="username"> {value.username} </div>
-        </div>
-      })}
-    </div>
+function App() {  
+  return ( //add as many routes here
+  <div className="App">
+    <Router>
+    <Link to="/createpost">Create a Post</Link>
+    <Link to="/">Home</Link>
+      <Switch>
+        <Route path="/" exact component={Home}/> 
+        <Route path="/createpost" exact component={CreatePost}/>
+      </Switch>
+    </Router>
+  </div>
   );
 }
 
