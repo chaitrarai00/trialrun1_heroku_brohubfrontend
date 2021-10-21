@@ -13,4 +13,12 @@ router.post("/",async (req, res) => {
     res.json(post); //cannot be parsed in express
 });
 
+//declare a new url for returning a post based on id : create a route
+router.get("/byId/:id",async(req, res)=>{
+    //parameter from request req.params.id
+    const id=req.params.id;
+    const post=await Posts.findByPk(id);
+    res.json(post);
+});
+
 module.exports=router;

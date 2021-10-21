@@ -16,6 +16,15 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
+    // we try to build associations here and models here in the function grabs control over every model in the table
+    Posts.associate= (models) => {
+        // a post can have many comments
+        Posts.hasMany(models.Comments, {
+            onDelete: "cascade",
+            //delete comments associated on delete of a post
+        });
+    }
+
     return Posts;
 }
 

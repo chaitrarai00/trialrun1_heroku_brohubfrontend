@@ -7,9 +7,12 @@ app.use(cors());//intoduce te middleware to whitelist the api from the server
 
 const db = require('./models'); //access for every module in the backend using db
 
-//router
+//router for posts
 const postRouter=require("./routes/Posts");
 app.use("/posts",postRouter);
+//router for comments
+const commentRouter=require("./routes/Comments");
+app.use("/comments",commentRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001,
