@@ -15,8 +15,8 @@ function Home(){
         <div>
         {list_OfPosts.map((value,key)=>{  //relate with java maps
         //on click to the div below push to history
-        return (
-        <div className="post" onClick={
+        return ( 
+        <div key={key} className="post" onClick={
           () => {history.push(`/post/${value.id}`);
         }}> 
         <div className="title"> {value.title} </div> 
