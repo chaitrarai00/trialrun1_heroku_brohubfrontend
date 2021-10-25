@@ -25,10 +25,24 @@ function Post() {
 
     const addComment= ()=>{
         // we get id in the url, the post id
-        axios.post("http://localhost:3001/comments", { commentBody :newComment ,PostId: id}).then((response)=>{
-            const commentToAdd= {commentBody: newComment};
-            setComments([...comments, commentToAdd]);//array destructuring and adding new added comment/ element into old value
-            setNewComment(""); //clearing the current value and resetting the input for next time
+        axios.post("http://localhost:3001/comments", 
+        { commentBody :newComment ,
+            PostId: id},
+            {
+                headers:{
+                    accessToken: sessionStorage.getItem("accessToken"),
+                },
+            })
+            .then((response)=>{
+                // if there was any issue while commenting
+            if(response.data.error){
+                alert(response.data.error);
+            }
+            else{
+                const commentToAdd= {commentBody: newComment};
+                setComments([...comments, commentToAdd]);//array destructuring and adding new added comment/ element into old value
+                setNewComment(""); //clearing the current value and resetting the input for next time
+            }
         }
         )
     }

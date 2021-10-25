@@ -3,6 +3,8 @@ const router=express.Router();
 const {Users} =require("../models");
 const bcrypt= require("bcrypt"); //get hashing functions for encryption of password
 
+const {sign,}=require('jsonwebtoken')
+
 router.post("/",async(req,res)=>{
     const {username, password}=req.body;
     bcrypt.hash(password, 10).then((hash)=>{
@@ -26,7 +28,12 @@ router.post("/login",async(req,res)=>{
     bcrypt.compare(password,user.password).then((match)=>{
         if(!match) res.json({error:"Wrong Username and Password Combination"});
 
-        res.json("User Logged in");
+        //all conditions passed then generate the token
+        //instead of "importantsecret" try to use random string generator
+        const accessToken=sign({username: user.username, id: user.id},
+            "importantsecret");
+        //access to above token to the frontend for session storage
+        res.json(accessToken);
     });
 });
 
