@@ -13,6 +13,9 @@ app.use("/posts",postRouter);
 //router for comments
 const commentRouter=require("./routes/Comments");
 app.use("/comments",commentRouter);
+//router for user auth
+const userRouter=require("./routes/Users");
+app.use("/auth",userRouter);
 
 db.sequelize.sync().then(() => {
     app.listen(3001,
