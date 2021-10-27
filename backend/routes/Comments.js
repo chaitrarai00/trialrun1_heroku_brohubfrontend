@@ -20,6 +20,8 @@ router.get("/:postId",async(req, res)=>{
 //validate to see who has read write access for commenting
 router.post("/",validateToken,async(req, res)=>{
     const comment= req.body;
+    const username= req.user.username;// grabbed from the middleware
+    comment.username=username;
     await Comments.create(comment);
     res.json(comment);
 });

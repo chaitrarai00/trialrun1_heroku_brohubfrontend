@@ -19,7 +19,10 @@ const validateToken= (req, res, next)=>{
 
     try{
         const validToken= verify(accessToken, "importantsecret");
+        //valid token is an object who is authenticated 
 
+        req.user=validToken;//grabbing the authentiacted user for access in the req
+        //check for the authenticated object
         if(validToken){
             return next();
         }

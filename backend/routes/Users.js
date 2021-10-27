@@ -2,8 +2,8 @@ const express=require("express");
 const router=express.Router();
 const {Users} =require("../models");
 const bcrypt= require("bcrypt"); //get hashing functions for encryption of password
-
-const {sign,}=require('jsonwebtoken')
+const {validateToken} = require('../middlewares/AuthMiddleware');
+const {sign,}=require('jsonwebtoken');
 
 router.post("/",async(req,res)=>{
     const {username, password}=req.body;
@@ -37,5 +37,9 @@ router.post("/login",async(req,res)=>{
     });
 });
 
+//below we check to see if the added token is valid or invalid
+router.get('/auth', validateToken, (req,res)=>{
+    res.json(req.user);
+});
 
 module.exports=router;

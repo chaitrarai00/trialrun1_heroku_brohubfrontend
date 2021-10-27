@@ -30,7 +30,7 @@ function Post() {
             PostId: id},
             {
                 headers:{
-                    accessToken: sessionStorage.getItem("accessToken"),
+                    accessToken: localStorage.getItem("accessToken"),
                 },
             })
             .then((response)=>{
@@ -39,7 +39,8 @@ function Post() {
                 alert(response.data.error);
             }
             else{
-                const commentToAdd= {commentBody: newComment};
+                // add username so that its grabbed on rendering on response from route
+                const commentToAdd= {commentBody: newComment, username: response.data.username};
                 setComments([...comments, commentToAdd]);//array destructuring and adding new added comment/ element into old value
                 setNewComment(""); //clearing the current value and resetting the input for next time
             }
@@ -71,7 +72,8 @@ function Post() {
                 </div>
                 <div className="listOfComments">
                     <div>{comments.map((comment, key)=>{
-                        return(<div key={key} className="comment">{comment.commentBody}</div>
+                        return(<div key={key} className="comment">{comment.commentBody}
+                        <label>By User, {comment.username}</label></div>
                         );
                     })}</div>
                 </div>
