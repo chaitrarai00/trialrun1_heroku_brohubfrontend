@@ -20,8 +20,8 @@ function Login() {
             //if all goes well store it in the session
             else{
             //localStorage stores user token once logged in rather than wanting it to change each time when opening in new tab
-            localStorage.setItem("accessToken", response.data);
-            setAuthState(true);
+            localStorage.setItem("accessToken", response.data.token);
+            setAuthState({username: response.data.username, id:response.data.id, status: true});
             history.push("/");
         }
         });

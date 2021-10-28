@@ -26,5 +26,17 @@ router.post("/",validateToken,async(req, res)=>{
     res.json(comment);
 });
 
+//delete a comment
+router.delete("/:commentId",validateToken,async(req,res)=>{
+    const commentId=req.params.commentId;
+    await Comments.destroy({
+        where:{
+            id: commentId,
+        },
+    });
+    //sequelize to delete: destroy
+    res.json("DELETED SUCCESSFULLY");//always include or send a response to make sure req is completed
+});
+
 
 module.exports=router;

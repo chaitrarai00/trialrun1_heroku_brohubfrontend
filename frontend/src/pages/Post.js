@@ -1,6 +1,7 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState, useContext} from 'react'
 import {useParams } from "react-router-dom"
 import axios from 'axios';
+import {AuthContext} from '../helpers/AuthContext'
 
 function Post() {
     let {id}=useParams(); //used to retrive the parameter in the url
@@ -8,6 +9,8 @@ function Post() {
     const [postObject, setPostObject] =useState({});
     const [comments, setComments]= useState([]);
     const [newComment, setNewComment]=useState("");
+    const {authState}=useContext(AuthContext);// grabbing the context from AuthContext
+
 
     useEffect(
         ()=>{
@@ -47,6 +50,21 @@ function Post() {
         }
         )
     }
+
+    //function to delte comment
+    const deleteComment=(id)=>{
+        axios.delete(`http://localhost:3001/comments/${id}`,{
+            headers:{
+                accessToken: localStorage.getItem("accessToken"),
+            },
+        }).then(()=>{
+            setComments(comments.filter((val)=>{
+                return val.id != id;
+            })
+            );
+        });
+    };
+
         //comments might not need formik as validations to comments isnt needed People can comment anything-->
         //on adding a comment we will have to be notified about the addition to reflect the changes so use event
     return (
@@ -73,7 +91,9 @@ function Post() {
                 <div className="listOfComments">
                     <div>{comments.map((comment, key)=>{
                         return(<div key={key} className="comment">{comment.commentBody}
-                        <label>By User, {comment.username}</label></div>
+                        <label> By User, {comment.username}</label>
+                        {authState.username===comment.username && <button onClick={()=>{deleteComment(comment.id)}}> x </button>}
+                        </div>
                         );
                     })}</div>
                 </div>
