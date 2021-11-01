@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "cascade",
             //delete comments associated on delete of a post
         });
+        Posts.hasMany(models.Likes, {
+            onDelete: "cascade",
+            //delete likes associated on delete of a post
+        });
     }
 
     return Posts;

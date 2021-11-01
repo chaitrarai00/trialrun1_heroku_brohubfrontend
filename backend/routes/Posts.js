@@ -1,9 +1,10 @@
 const express=require("express");
 const router=express.Router();
-const {Posts} =require("../models");
+const {Posts,Likes} =require("../models");
 
+//when we get the post we must include the like table ; join/include with the post table and hence that would have the array of likes 
 router.get("/",async (req , res) => {
-    const listOfPosts = await Posts.findAll();
+    const listOfPosts = await Posts.findAll({include: [Likes]});
     res.json(listOfPosts);
 });
 

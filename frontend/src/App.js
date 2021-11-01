@@ -52,18 +52,19 @@ function App() {
     <Router>
     <div className="navbar">
       <div className="links">
-    <Link to="/">Home</Link>
-    <Link to="/createpost">Create a Post</Link>
-    {!authState.status && (
-    <>
-      <Link to="/login">Login</Link>
-      <Link to="/registration">Register</Link>
-    </>
-    )}
-    </div>
-    <div className="loggedInContainer">
-      {authState.status && <button onClick={logout}>Logout</button>}
-    </div>
+        <Link to="/">Home</Link>
+        <Link to="/createpost">Create a Post</Link>
+        {!authState.status && (
+        <>
+        <Link to="/login">Login</Link>
+        <Link to="/registration">Register</Link>
+      </>
+      )}
+      </div>
+      <div className="loggedInContainer">
+        <h1>{authState.username}</h1>
+        {authState.status && <button onClick={logout}>Logout</button>}
+      </div>
     </div>
       <Switch>
         <Route path="/" exact component={Home}/> 
