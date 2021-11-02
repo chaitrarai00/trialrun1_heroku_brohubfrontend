@@ -57,10 +57,10 @@ body {
 
 
 
-.footer .username {
+.username .username {
   flex: 50%;
 }
-.footer .buttons {
+.username .buttons {
   flex: 50%;
   display: flex;
   justify-content: flex-end;
@@ -260,7 +260,7 @@ button {
 }
 
 #individual .title,
-#individual .footer {
+#individual .username {
   font-size: 30px;
 }
 

@@ -5,6 +5,7 @@ import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
 import Register from './pages/Register';
 import Login from './pages/Login';
+import PageNotFound from './pages/PageNotFound'
 import {AuthContext} from './helpers/AuthContext'
 import {useState, useEffect} from "react"
 import axios from 'axios';
@@ -52,13 +53,17 @@ function App() {
     <Router>
     <div className="navbar">
       <div className="links">
-        <Link to="/">Home</Link>
-        <Link to="/createpost">Create a Post</Link>
-        {!authState.status && (
+        {/* the conditions to show login register if user isnt registered or loggedin and else it shouldnt */}
+        {!authState.status ? (
         <>
         <Link to="/login">Login</Link>
         <Link to="/registration">Register</Link>
       </>
+      ):(
+        <>
+          <Link to="/">Home</Link>
+          <Link to="/createpost">Create a Post</Link>
+        </>
       )}
       </div>
       <div className="loggedInContainer">
@@ -72,6 +77,8 @@ function App() {
         <Route path="/post/:id" exact component={Post}/>
         <Route path="/registration" exact component={Register}/>
         <Route path="/login" exact component={Login}/>
+        {/* last resort or option if the path isnt defined */}
+        <Route path="*" exact component={PageNotFound}/>
       </Switch>
     </Router>
     </AuthContext.Provider>

@@ -1,5 +1,5 @@
 import React,{useEffect, useState, useContext} from 'react'
-import {useParams } from "react-router-dom"
+import {useParams, useHistory } from "react-router-dom"
 import axios from 'axios';
 import {AuthContext} from '../helpers/AuthContext'
 
@@ -11,6 +11,7 @@ function Post() {
     const [newComment, setNewComment]=useState("");
     const {authState}=useContext(AuthContext);// grabbing the context from AuthContext
 
+    let history= useHistory();
 
     useEffect(
         ()=>{
@@ -65,6 +66,23 @@ function Post() {
         });
     };
 
+    // const deletePost= (id)=>{
+    //     axios.delete(`http://localhost:3001/posts/${id}`,{
+    //         headers: {accessToken: localStorage.getItem("accessToken")},
+    //     }).then(()=>{
+    //         history.push("/");
+    //     })
+    // };
+    const deletePost = (id) => {
+        axios
+          .delete(`http://localhost:3001/posts/${id}`, {
+            headers: { accessToken: localStorage.getItem("accessToken") },
+          })
+          .then(() => {
+            history.push("/");
+          });
+      };
+
         //comments might not need formik as validations to comments isnt needed People can comment anything-->
         //on adding a comment we will have to be notified about the addition to reflect the changes so use event
     return (
@@ -73,7 +91,16 @@ function Post() {
                 <div className="post" id="individual">
                     <div className="title">{postObject.title}</div>
                     <div className="body">{postObject.postText}</div>
-                    <div className="username">{postObject.username}</div>
+                    <div className="username">
+                        {postObject.username}
+                        {authState.username === postObject.username &&(
+                            <button 
+                            onClick={() => {
+                                deletePost(postObject.id)
+                            }}
+                            > Delete Post</button>
+                        )}
+                    </div>
                 </div>
             </div>
             <div className="rightSide">

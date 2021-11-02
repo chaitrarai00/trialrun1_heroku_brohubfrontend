@@ -12,8 +12,9 @@ router.get("/", validateToken ,async (req , res) => {
 });
 
 
-router.post("/",async (req, res) => {
+router.post("/" ,validateToken ,async (req, res) => { //use validateToken to get the logged in username
     const post=req.body;
+    post.username = req.user.username;
     await Posts.create(post);
     res.json(post); //cannot be parsed in express
 });
@@ -24,6 +25,17 @@ router.get("/byId/:id",async(req, res)=>{
     const id=req.params.id;
     const post=await Posts.findByPk(id);
     res.json(post);
+});
+
+//router to delete a post
+router.delete("/:postId", validateToken, async (req, res) => {
+    const postId = req.params.postId;
+    await Posts.destroy({
+        where:{
+            id: postId,
+        },
+    });
+    res.json("DELETED SUCCESSFULLY") //not including this will not complete the promise
 });
 
 module.exports=router;
