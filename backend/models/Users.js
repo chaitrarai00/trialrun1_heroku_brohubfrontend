@@ -11,7 +11,12 @@ module.exports=(sequelize, DataTypes)=>{
     });
 
     Users.associate= (models)=>{
+        //user can like many post
         Users.hasMany(models.Likes,{
+            onDelete: "cascade",
+        });
+        //user can post many posts
+        Users.hasMany(models.Posts,{
             onDelete: "cascade",
         });
     };

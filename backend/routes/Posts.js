@@ -15,6 +15,7 @@ router.get("/", validateToken ,async (req , res) => {
 router.post("/" ,validateToken ,async (req, res) => { //use validateToken to get the logged in username
     const post=req.body;
     post.username = req.user.username;
+    post.UserId= req.user.id;// this is tsored and retrieve from jwt
     await Posts.create(post);
     res.json(post); //cannot be parsed in express
 });
@@ -36,6 +37,37 @@ router.delete("/:postId", validateToken, async (req, res) => {
         },
     });
     res.json("DELETED SUCCESSFULLY") //not including this will not complete the promise
+});
+
+//router get all list of posts of a user
+router.get("/byuserId/:id",async(req, res)=>{
+    //parameter from request req.params.id
+    const id=req.params.id;
+    const listOfPosts=await Posts.findAll({
+        where: { UserId: id},
+        include: [Likes],
+    });
+    res.json(listOfPosts);
+});
+
+//edit posts/ update 
+router.put("/title", validateToken, async (req, res) => {
+    const { newTitle, id} = req.body;
+    await Posts.update(
+        {title: newTitle}, { 
+        where: {id: id}
+    });
+    res.json(newTitle);
+});
+
+
+router.put("/postText", validateToken, async (req, res) => {
+    const { newText, id} = req.body;
+    await Posts.update(
+        {title: newText}, { 
+        where: {id: id}
+    });
+    res.json(newText);
 });
 
 module.exports=router;

@@ -38,8 +38,41 @@ router.post("/login",async(req,res)=>{
 });
 
 //below we check to see if the added token is valid or invalid
+//only authenticated user gets in
 router.get('/auth', validateToken, (req,res)=>{
     res.json(req.user);
+});
+
+// we will use this route to grab username for the Profile page
+// no validate token since anyone can view the profile page
+router.get("/basicinfo/:id", async(req,res) => {
+    const id= req.params.id;
+    //get user info using id but filter out password
+    const basicInfo= await Users.findByPk(id, {
+        attributes: {exclude: ["password"]}
+    });
+    res.json(basicInfo); 
+});
+
+//update password route
+router.put('/changepassword', validateToken ,async(req, res)=>{
+    const {oldPassword, newPassword}=req.body;
+    const user=  Users.findOne({
+        where: {
+            username: req.user.username
+        }
+    });// get user from validate token
+
+    bcrypt.compare(oldPassword,user.password).then((match)=>{
+        if(!match) res.json({error:"Wrong Password"});
+
+        bcrypt.hash(newPassword, 10).then((hash)=>{
+                 Users.update({password: hash}, {where:{
+                    username: req.user.username
+                }});
+                res.json(" Password change successfull");
+            });
+    });
 });
 
 module.exports=router;

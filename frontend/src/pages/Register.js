@@ -2,12 +2,15 @@ import React from 'react'
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import {useHistory} from "react-router-dom"
 
 function Register() {
     const initialValues={
         username:"",
         password:"",
     };
+
+    let history=useHistory();
    /**
     * Validation constraints for provided inputs
     */
@@ -20,7 +23,8 @@ function Register() {
     */
     const onSubmit=(data)=>{
         axios.post("http://localhost:3001/auth", data).then(()=>{
-            console.log(data);
+            alert("User registered Successfully")
+            history.push("/login");
         });
     };
     return (

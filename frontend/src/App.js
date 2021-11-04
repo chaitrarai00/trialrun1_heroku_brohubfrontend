@@ -6,6 +6,8 @@ import Post from "./pages/Post";
 import Register from './pages/Register';
 import Login from './pages/Login';
 import PageNotFound from './pages/PageNotFound'
+import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword';
 import {AuthContext} from './helpers/AuthContext'
 import {useState, useEffect} from "react"
 import axios from 'axios';
@@ -77,6 +79,8 @@ function App() {
         <Route path="/post/:id" exact component={Post}/>
         <Route path="/registration" exact component={Register}/>
         <Route path="/login" exact component={Login}/>
+        <Route path="/profile/:id" exact component={Profile}/>
+        <Route path="/changepassword" exact component={ChangePassword}/>
         {/* last resort or option if the path isnt defined */}
         <Route path="*" exact component={PageNotFound}/>
       </Switch>

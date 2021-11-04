@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'         //rfce
 import {useEffect, useState} from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import {AuthContext} from '../helpers/AuthContext'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 
@@ -74,7 +74,7 @@ function Home(){
           () => {history.push(`/post/${value.id}`);
         }}> {value.postText} </div>
         <div className="username">
-        <div className="username"> {value.username}</div> 
+        <div className="username"> <Link to={`/profile/${value.UserId}`}>{value.username}</Link></div> 
         <div className="buttons"><ThumbUpAltIcon onClick={
           ()=>{
           likeAPost(value.id);}} 

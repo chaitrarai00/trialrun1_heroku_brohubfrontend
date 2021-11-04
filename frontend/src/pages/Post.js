@@ -83,14 +83,42 @@ function Post() {
           });
       };
 
+      const editPost= (option) => {
+          if(option === "title"){
+              let newTitle= prompt("Enter New Title:");
+              axios.put("http://localhost:3001/posts/title",
+                  {newTitle: newTitle, id: id},
+                  { headers: {accessToken: localStorage.getItem("accessToken") },}
+              );
+              setPostObject({...postObject, title: newTitle});// change onlt title keeping other postObject values as before
+          }else{
+              let newPostText= prompt("Enter New Text");
+              axios.put("http://localhost:3001/posts/postText",
+                  {newPostText: newPostText, id: id},
+                  { headers: {accessToken: localStorage.getItem("accessToken") },}
+              );
+              setPostObject({...postObject, postText: newPostText});
+          }
+      };
+
         //comments might not need formik as validations to comments isnt needed People can comment anything-->
         //on adding a comment we will have to be notified about the addition to reflect the changes so use event
     return (
         <div className="postPage">
             <div className="leftSide">
                 <div className="post" id="individual">
-                    <div className="title">{postObject.title}</div>
-                    <div className="body">{postObject.postText}</div>
+                    <div className="title"
+                    onClick={() => {
+                        if(authState.username === postObject.username){
+                            editPost("title");
+                        }
+                    }}>{postObject.title}</div>
+                    <div className="body"
+                    onClick={() => {
+                        if(authState.username === postObject.username){
+                            editPost("body")
+                        }
+                    }}>{postObject.postText}</div>
                     <div className="username">
                         {postObject.username}
                         {authState.username === postObject.username &&(
