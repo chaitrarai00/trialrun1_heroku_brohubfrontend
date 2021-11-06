@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
 const cors=require("cors");
+require("dotenv").config();
 
 app.use(express.json());//helps express parse json request
 app.use(cors());//intoduce te middleware to whitelist the api from the server
@@ -20,11 +21,15 @@ app.use("/auth",userRouter);
 const likesRouter=require("./routes/Likes");
 app.use("/likes",likesRouter);
 
-db.sequelize.sync().then(() => {
-    app.listen(3001,
+db.sequelize
+.sync()
+.then(() => {
+    app.listen(process.env.PORT || 3001, //the process env in heorku is decided by heroku
     ()=>{
         console.log("Server running on port 3001");
     });
+}).catch((err)=>{
+    console.log(err);
 });
 //where the server should run
 //, configure the port where the server is supposed to run
