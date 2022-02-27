@@ -17,7 +17,7 @@ function Home(){
         history.push("/login");
       }
       else{
-      axios.get("http://localhost:3001/posts", {headers: {accessToken: localStorage.getItem("accessToken")}})
+      axios.get("https://deployment-trail-run.herokuapp.com/posts", {headers: {accessToken: localStorage.getItem("accessToken")}})
       .then((response) =>{
       set_listOfPosts(response.data.listOfPosts);
       set_LikedPosts(response.data.likedPosts.map(
@@ -31,7 +31,7 @@ function Home(){
 
   //function to return all likes
   const likeAPost =(postId) => {
-    axios.post("http://localhost:3001/likes", 
+    axios.post("https://deployment-trail-run.herokuapp.com/likes", 
     {PostId: postId},
     {headers: {accessToken: localStorage.getItem("accessToken")}}
     ).then((response)=>{

@@ -15,12 +15,12 @@ function Post() {
 
     useEffect(
         ()=>{
-            axios.get(`http://localhost:3001/posts/byId/${id}`).then((response)=>{
+            axios.get(`https://deployment-trail-run.herokuapp.com/posts/byId/${id}`).then((response)=>{
                 //what to do?
                 setPostObject(response.data);
             });
 
-            axios.get(`http://localhost:3001/comments/${id}`).then((response)=>{
+            axios.get(`https://deployment-trail-run.herokuapp.com/comments/${id}`).then((response)=>{
                 setComments(response.data);
             });
         },[]);
@@ -29,7 +29,7 @@ function Post() {
 
     const addComment= ()=>{
         // we get id in the url, the post id
-        axios.post("http://localhost:3001/comments", 
+        axios.post("https://deployment-trail-run.herokuapp.com/comments", 
         { commentBody :newComment ,
             PostId: id},
             {
@@ -54,7 +54,7 @@ function Post() {
 
     //function to delte comment
     const deleteComment=(id)=>{
-        axios.delete(`http://localhost:3001/comments/${id}`,{
+        axios.delete(`https://deployment-trail-run.herokuapp.com/comments/${id}`,{
             headers:{
                 accessToken: localStorage.getItem("accessToken"),
             },
@@ -67,7 +67,7 @@ function Post() {
     };
 
     // const deletePost= (id)=>{
-    //     axios.delete(`http://localhost:3001/posts/${id}`,{
+    //     axios.delete(`https://deployment-trail-run.herokuapp.com/posts/${id}`,{
     //         headers: {accessToken: localStorage.getItem("accessToken")},
     //     }).then(()=>{
     //         history.push("/");
@@ -75,7 +75,7 @@ function Post() {
     // };
     const deletePost = (id) => {
         axios
-          .delete(`http://localhost:3001/posts/${id}`, {
+          .delete(`https://deployment-trail-run.herokuapp.com/posts/${id}`, {
             headers: { accessToken: localStorage.getItem("accessToken") },
           })
           .then(() => {
@@ -86,14 +86,14 @@ function Post() {
       const editPost= (option) => {
           if(option === "title"){
               let newTitle= prompt("Enter New Title:");
-              axios.put("http://localhost:3001/posts/title",
+              axios.put("https://deployment-trail-run.herokuapp.com/posts/title",
                   {newTitle: newTitle, id: id},
                   { headers: {accessToken: localStorage.getItem("accessToken") },}
               );
               setPostObject({...postObject, title: newTitle});// change onlt title keeping other postObject values as before
           }else{
               let newPostText= prompt("Enter New Text");
-              axios.put("http://localhost:3001/posts/postText",
+              axios.put("https://deployment-trail-run.herokuapp.com/posts/postText",
                   {newPostText: newPostText, id: id},
                   { headers: {accessToken: localStorage.getItem("accessToken") },}
               );

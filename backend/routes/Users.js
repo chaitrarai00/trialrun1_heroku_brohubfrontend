@@ -1,13 +1,13 @@
 const express=require("express");
 const router=express.Router();
 const {Users} =require("../models");
-const bcrypt= require("bcrypt"); //get hashing functions for encryption of password
+const bcryptjs= require("bcryptjs"); //get hashing functions for encryption of password
 const {validateToken} = require('../middlewares/AuthMiddleware');
 const {sign,}=require('jsonwebtoken');
 
 router.post("/",async(req,res)=>{
     const {username, password}=req.body;
-    bcrypt.hash(password, 10).then((hash)=>{
+    bcryptjs.hash(password, 10).then((hash)=>{
         Users.create({
             username: username,
             password: hash,
@@ -25,7 +25,7 @@ router.post("/login",async(req,res)=>{
     });
     if(!user) res.json({error:"User Does not Exist"});
 
-    bcrypt.compare(password,user.password).then((match)=>{
+    bcryptjs.compare(password,user.password).then((match)=>{
         if(!match) res.json({error:"Wrong Username and Password Combination"});
 
         //all conditions passed then generate the token
@@ -63,10 +63,10 @@ router.put('/changepassword', validateToken ,async(req, res)=>{
         }
     });// get user from validate token
 
-    bcrypt.compare(oldPassword,user.password).then((match)=>{
+    bcryptjs.compare(oldPassword,user.password).then((match)=>{
         if(!match) res.json({error:"Wrong Password"});
 
-        bcrypt.hash(newPassword, 10).then((hash)=>{
+        bcryptjs.hash(newPassword, 10).then((hash)=>{
                  Users.update({password: hash}, {where:{
                     username: req.user.username
                 }});

@@ -23,7 +23,7 @@ function App() {
 
 //control render and control need to login each time you refresh
   useEffect(()=>{
-    axios.get('http://localhost:3001/auth/auth', {headers:{
+    axios.get('https://deployment-trail-run.herokuapp.com/auth/auth', {headers:{
       accessToken: localStorage.getItem("accessToken"),
     },
   }).then((response)=>{

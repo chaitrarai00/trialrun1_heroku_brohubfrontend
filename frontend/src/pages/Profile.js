@@ -15,13 +15,13 @@ function Profile() {
 
     //useEffect will be run once when the page is loaded..only once
     useEffect(()=>{
-        axios.get(`http://localhost:3001/auth/basicinfo/${id}`)
+        axios.get(`https://deployment-trail-run.herokuapp.com/auth/basicinfo/${id}`)
         .then((response)=>{
             setUsername(response.data.username);// response from url has the basicinfo data
         });
 
         //another request for list of posts
-        axios.get(`http://localhost:3001/posts/byuserid/${id}`)
+        axios.get(`https://deployment-trail-run.herokuapp.com/posts/byuserid/${id}`)
         .then((response)=>{
             setListOfPosts(response.data);
         });

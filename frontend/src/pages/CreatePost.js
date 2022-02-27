@@ -33,7 +33,7 @@ function CreatePost(){
     *function to exexute on submittion
     */
    const onSubmit=(data)=>{
-       axios.post("http://localhost:3001/posts",data, {headers:{accessToken: localStorage.getItem("accessToken")}})
+       axios.post("https://deployment-trail-run.herokuapp.com/posts",data, {headers:{accessToken: localStorage.getItem("accessToken")}})
        // grab username from localstroage access token and use that to be sored in database rather than take the input
        .then((response)=>{
            history.push("/")

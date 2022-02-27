@@ -22,7 +22,7 @@ function Register() {
     *function to exexute on submittion
     */
     const onSubmit=(data)=>{
-        axios.post("http://localhost:3001/auth", data).then(()=>{
+        axios.post("https://deployment-trail-run.herokuapp.com/auth", data).then(()=>{
             alert("User registered Successfully")
             history.push("/login");
         });
